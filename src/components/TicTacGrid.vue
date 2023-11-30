@@ -12,6 +12,7 @@
         @newGame="
           reset = false;
           player = 'X';
+          turns = 0;
         "
         v-for="(col, colIndex) in 3"
         :key="`col-${colIndex}`"
@@ -19,8 +20,11 @@
       <br />
     </div>
   </div>
-  <div id="playStats" v-if="lastWinner != ''">
-    Game Over. {{ lastWinner }} Wins!
+  <div id="playStats">
+    <div v-if="lastWinner != '' && lastWinner != 'Draw'">
+      Game Over. {{ lastWinner }} Wins!
+    </div>
+    <div v-else-if="lastWinner == 'Draw'">Game Over. It's a Draw!</div>
   </div>
 </template>
 
@@ -57,15 +61,18 @@ import { ref } from "vue";
 let player = ref("X");
 let lastWinner = ref("");
 let reset = ref(false);
+let turns = ref(0);
 const arr = ref([Array(3).fill(""), Array(3).fill(""), Array(3).fill("")]);
 
 function alternate(row: number, col: number) {
+  lastWinner.value = "";
   arr.value[row][col] = player.value;
+  turns.value += 1;
   if (checkWin() != "") {
-    console.clear();
+    // console.clear();
     reset.value = true;
     arr.value = [Array(3).fill(""), Array(3).fill(""), Array(3).fill("")];
-    lastWinner.value = player.value;
+    lastWinner.value = checkWin();
   }
   if (player.value == "X") {
     player.value = "O";
@@ -75,6 +82,11 @@ function alternate(row: number, col: number) {
 }
 
 function checkWin() {
+  console.log(turns.value);
+  if (turns.value == 9) {
+    console.log("Draw");
+    return "Draw";
+  }
   for (let i = 0; i < 3; i++) {
     // horizontal traverse
     if (
@@ -122,6 +134,7 @@ export default defineComponent({
       player,
       reset,
       lastWinner,
+      turns,
     };
   },
   methods: {

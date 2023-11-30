@@ -49,7 +49,6 @@ classlist.value = "default";
 
 const emit = defineEmits(["changePlayer", "newGame"]);
 
-//watcher
 watch(
   () => props.reset,
   (newVal) => {
