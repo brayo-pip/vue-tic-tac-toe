@@ -47,7 +47,7 @@ const arr = ref([Array(3).fill(""), Array(3).fill(""), Array(3).fill("")]);
 function alternate(row: any, col: any) {
   arr.value[row][col] = player.value;
   if (checkWin() != "") {
-    // console.log("won");
+    console.clear();
     reset.value = true;
     arr.value = [Array(3).fill(""), Array(3).fill(""), Array(3).fill("")];
   }

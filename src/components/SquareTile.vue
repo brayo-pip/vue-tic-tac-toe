@@ -44,7 +44,6 @@ const props = defineProps({
 });
 
 let Tic = ref("");
-let resetRef = ref(props.reset);
 let classlist = ref("");
 classlist.value = "default";
 
@@ -63,17 +62,13 @@ watch(
 );
 
 function changeTic() {
-  if (props.reset == true) {
-    resetRef.value == true;
-  } else if (Tic.value == "") {
+  if (Tic.value == "") {
     Tic.value = props.player ?? "";
     if (props.player == "X") {
       classlist.value = "X";
     } else {
       classlist.value = "O";
     }
-    console.log(props.col, props.row);
-    console.log(props.reset);
     emit("changePlayer", props.row, props.col);
   }
 }
