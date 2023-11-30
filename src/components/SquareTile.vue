@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 #container {
   width: 100px;
   height: 100px;

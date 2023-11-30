@@ -1,6 +1,5 @@
 <template>
-  <div v-if="!reset">It's {{ player }}'s Turn.</div>
-  <div v-else>{{ player }} Won</div>
+  <div :id="player" v-if="!reset">It's {{ player }}'s Turn.</div>
   <br />
   <div class="grid">
     <div class="row" v-for="(row, rowIndex) in 3" :key="rowIndex">
@@ -20,18 +19,33 @@
       <br />
     </div>
   </div>
+  <div id="playStats" v-if="lastWinner != ''">
+    Game Over. {{ lastWinner }} Wins!
+  </div>
 </template>
 
-<style>
+<style scoped>
 .grid {
   display: grid;
   grid-template-columns: 3;
   grid-template-rows: 3;
 }
+#X {
+  color: red;
+}
+#O {
+  color: greenyellow;
+}
 .row {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#playStats {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff0000;
+  padding: 16px;
 }
 </style>
 
@@ -41,15 +55,17 @@ import { defineComponent } from "vue";
 import { ref } from "vue";
 
 let player = ref("X");
+let lastWinner = ref("");
 let reset = ref(false);
 const arr = ref([Array(3).fill(""), Array(3).fill(""), Array(3).fill("")]);
 
-function alternate(row: any, col: any) {
+function alternate(row: number, col: number) {
   arr.value[row][col] = player.value;
   if (checkWin() != "") {
     console.clear();
     reset.value = true;
     arr.value = [Array(3).fill(""), Array(3).fill(""), Array(3).fill("")];
+    lastWinner.value = player.value;
   }
   if (player.value == "X") {
     player.value = "O";
@@ -105,10 +121,12 @@ export default defineComponent({
     return {
       player,
       reset,
+      lastWinner,
     };
   },
   methods: {
     alternate,
+    checkWin,
   },
 });
 </script>
