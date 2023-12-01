@@ -53,9 +53,8 @@
 }
 </style>
 
-<script lang="ts">
+<script lang="ts" setup>
 import SquareTile from "./SquareTile.vue";
-import { defineComponent } from "vue";
 import { ref } from "vue";
 
 let player = ref("X");
@@ -123,23 +122,4 @@ function checkWin() {
   }
   return "";
 }
-
-export default defineComponent({
-  name: "TicTacGrid",
-  components: {
-    SquareTile,
-  },
-  data() {
-    return {
-      player,
-      reset,
-      lastWinner,
-      turns,
-    };
-  },
-  methods: {
-    alternate,
-    checkWin,
-  },
-});
 </script>
