@@ -1,4 +1,4 @@
-# vue-tic-tac-toe
+# tic-tac-toe
 
 ## Project setup
 ```
