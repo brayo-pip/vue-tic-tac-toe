@@ -1,5 +1,5 @@
 # tic-tac-toe
-
+I was bored.
 ## Project setup
 ```
 npm install
