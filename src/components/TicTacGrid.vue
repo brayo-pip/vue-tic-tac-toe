@@ -67,11 +67,12 @@ function alternate(row: number, col: number) {
   lastWinner.value = "";
   arr.value[row][col] = player.value;
   turns.value += 1;
-  if (checkWin() != "") {
+  var winValue = checkWin(row, col);
+  if (winValue != "") {
     // console.clear();
     reset.value = true;
     arr.value = [Array(3).fill(""), Array(3).fill(""), Array(3).fill("")];
-    lastWinner.value = checkWin();
+    lastWinner.value = winValue;
   }
   if (player.value == "X") {
     player.value = "O";
@@ -80,45 +81,50 @@ function alternate(row: number, col: number) {
   }
 }
 
-function checkWin() {
-  console.log(turns.value);
+function checkWin(row: number, col: number) {
   if (turns.value == 9) {
-    console.log("Draw");
     return "Draw";
   }
-  for (let i = 0; i < 3; i++) {
-    // horizontal traverse
-    if (
-      arr.value[i][0] == arr.value[i][1] &&
-      arr.value[i][1] == arr.value[i][2] &&
-      arr.value[i][0] != ""
-    ) {
-      return arr.value[i][0];
-    }
-    // vertical traverse
-    if (
-      arr.value[0][i] == arr.value[1][i] &&
-      arr.value[1][i] == arr.value[2][i] &&
-      arr.value[0][i] != ""
-    ) {
-      return arr.value[0][i];
-    }
+  if (
+    arr.value[row][0] == arr.value[row][1] &&
+    arr.value[row][1] == arr.value[row][2] &&
+    arr.value[row][0] != ""
+  ) {
+    return arr.value[row][0];
   }
+  // vertical traverse
+  if (
+    arr.value[0][col] == arr.value[1][col] &&
+    arr.value[1][col] == arr.value[2][col] &&
+    arr.value[0][col] != ""
+  ) {
+    return arr.value[0][col];
+  }
+  // }
   // diagonal traverse
   if (
-    arr.value[0][0] == arr.value[1][1] &&
-    arr.value[1][1] == arr.value[2][2] &&
-    arr.value[0][0] != ""
+    (row == 0 && col == 0) ||
+    (row == 0 && col == 2) ||
+    (row == 2 && col == 0) ||
+    (row == 1 && col == 1) ||
+    (row == 2 && col == 0) ||
+    (row == 2 && col == 2)
   ) {
-    return arr.value[0][0];
-  }
-  // reverse diagonal traverse
-  if (
-    arr.value[0][2] == arr.value[1][1] &&
-    arr.value[1][1] == arr.value[2][0] &&
-    arr.value[0][2] != ""
-  ) {
-    return arr.value[0][2];
+    if (
+      arr.value[0][0] == arr.value[1][1] &&
+      arr.value[1][1] == arr.value[2][2] &&
+      arr.value[0][0] != ""
+    ) {
+      return arr.value[0][0];
+    }
+    // reverse diagonal traverse
+    if (
+      arr.value[0][2] == arr.value[1][1] &&
+      arr.value[1][1] == arr.value[2][0] &&
+      arr.value[0][2] != ""
+    ) {
+      return arr.value[0][2];
+    }
   }
   return "";
 }
